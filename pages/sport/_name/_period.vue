@@ -319,6 +319,18 @@ export default {
             );
           });
       } else if (this.period == "upcoming") {
+        this.$axios
+        .get(
+          "sports/get-fixtures-by-sport-date?date=" +
+            this.start_date +
+            "&end_date=" +
+            this.end_date +
+            "&sid=1&channel=website"
+        )
+        .then((res) => {
+          this.fixtures = _.groupBy(res.data.fixtures, "sport_tournament_name");
+          this.loading = false;
+        });
       }
     },
     groupBy(arr, key) {
