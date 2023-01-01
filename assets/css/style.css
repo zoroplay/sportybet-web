@@ -82,6 +82,16 @@ body{
           flex: 1 1 auto;
   min-width: 1%;
 }
+.m-main .m-main-top .home-top .first-part .img.img1 {
+  position: absolute !important;
+  left: -346px !important;
+  top: -1px !important;
+}
+.m-main .m-main-top .home-top .first-part .img.img2 {
+  position: absolute !important;
+  right: -346px !important;
+  top: -1px !important;
+}
 
 .m-main .m-main-bottom {
   margin-top: 10px !important;
@@ -371,15 +381,6 @@ nav.sports-tabs__list {
   padding-right: 4px;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.lmt-icon:before {
-  content: "\E61D";
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .m-table-cell {

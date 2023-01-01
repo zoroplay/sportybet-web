@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="card mb-3">
-              <div class="list-group list-group-flush">
+              <div class="account list-group list-group-flush">
                 <!-- <li v-for="(list, index) in menu" :key="index" class="list-group-item px-3 border-bottom-0"> -->
                   <nuxt-link v-for="(list, index) in menu" :key="index" :to="list.url" class="list-group-item list-group-item-action text-decoration-none text-dark border-0 py-2 rounded-0">
                     <div class="d-flex justify-content-between">
@@ -120,7 +120,7 @@ export default {
   color: white !important;
 }
 
-.list-group-item:hover{
+.account.list-group-item:hover{
   background-color: #32CE62;
   color: #fff !important;
 }

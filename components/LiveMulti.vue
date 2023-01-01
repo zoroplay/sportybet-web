@@ -318,44 +318,7 @@ export default {
   text-decoration: none;
 }
 
-.m-main .m-main-top .home-top .first-part-wrap {
-  background-color: #1b1e25;
-}
-.m-main .m-main-top .home-top .first-part {
-  background-color: #1b1e25;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  margin: 0 auto;
-  min-width: 1000px;
-  padding: 5px 0;
-  position: relative;
-  width: 1000px;
-}
 
-.m-main .m-main-top .home-top .top-main {
-  min-width: 1000px;
-  overflow: hidden;
-  width: 1000px;
-}
 
-.m-main .m-main-top .home-top .first-part .popular {
-  color: #fff;
-  display: inline-block;
-  height: 254px;
-  text-align: left;
-  vertical-align: top;
-  width: 238px;
-}
 
-.m-main .m-main-top .home-top .first-part .popular .popular-text {
-  font-size: 20px;
-  font-weight: bold;
-  height: 40px;
-  line-height: 40px;
-}
-
-.m-main .m-main-top .home-top .first-part .popular .popular-list {
-  height: 199px;
-  width: 200px;
-}
 </style>

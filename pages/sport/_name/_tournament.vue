@@ -127,7 +127,12 @@
           </div>
         </div>
         <div class="col-7 m-table-cell">
-          <fixtures v-for="(group, index) in fixtures" :key="index" :tournament_name="index" :tournament_group="group"></fixtures>
+          <fixtures
+            v-for="(group, index) in fixtures"
+            :key="index"
+            :tournament_name="index"
+            :tournament_group="group"
+          ></fixtures>
           <div class="d-flex justify-content-center" v-if="loading">
             <div class="no_games text-center">
               <div class="spinner-border" role="status">
@@ -149,7 +154,7 @@ import Betslip from "~/components/Betslip.vue";
 import Highlights from "~/components/Highlights.vue";
 import Live from "~/components/Live.vue";
 import _ from "lodash";
-import Fixtures from '~/components/Fixtures.vue';
+import Fixtures from "~/components/Fixtures.vue";
 export default {
   name: "IndexPage",
   layout: "default",
@@ -158,7 +163,8 @@ export default {
     return {
       fixtures: [],
       loading: false,
-      period: "",
+      tournament_id: null,
+      active_sport_id: ''
     };
   },
   watch: {
@@ -166,54 +172,27 @@ export default {
       immediate: true,
       handler(to) {
         // react to route changes...
-        this.period = to.params.period;
+        this.tournament_id = to.params.tournament;
+        this.active_sport_id = this.getSportbyName(to.params.name);
         this.getFixtures();
       },
     },
   },
-  computed: {
-    date() {
-      let today = new Date();
-      return (
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate()
-      );
-    },
-  },
   methods: {
     getFixtures() {
-      this.loading = true
-      if (this.period == "today") {
-        this.$axios
-          .get(
-            "sports/get-fixtures-by-sport-date?date=" +
-              this.date +
-              "&sid=1&channel=website"
-          )
-          .then((res) => {
-            this.fixtures = _.groupBy(
-              res.data.fixtures,
-              "sport_tournament_name"
-            );
-            this.loading = false
-          });
-      } else if (this.period == "upcoming") {
-        this.$axios
+      this.loading = true;
+      this.$axios
         .get(
-          "sports/get-fixtures-by-sport-date?date=" +
-            this.start_date +
-            "&end_date=" +
-            this.end_date +
-            "&sid=1&channel=website"
+          "/sports/get-fixtures/" +
+            this.tournament_id +
+            "?sid=" +
+            this.active_sport_id +
+            "&source=web"
         )
         .then((res) => {
           this.fixtures = _.groupBy(res.data.fixtures, "sport_tournament_name");
-          this.loading = false;
+          this.loading = false
         });
-      }
     },
     groupBy(arr, key) {
       return _.groupBy(arr, key);
@@ -222,4 +201,3 @@ export default {
   mounted() {},
 };
 </script>
-

@@ -32,8 +32,9 @@ export const actions = {
     commit("setLive", value);
   },
   setCommitMenu({ commit }, value) {
-    this.$axios.get('/sports/menu?all').then()
-    commit("setMenu", value);
+    this.$axios.get('/sports/top-bets').then((res)=>{
+      commit("setMenu", res.data.splice(0,4));
+    })
   },
   setCommitActiveSport({ commit }, value) {
     commit('setActiveSport', value);

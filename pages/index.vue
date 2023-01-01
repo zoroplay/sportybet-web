@@ -4,41 +4,38 @@
       <div class="home-top">
         <div class="first-part-wrap">
           <div class="first-part">
+            <div class="img img1"><img src="https://s.sporty.net/global/main/modules/main/desktop/common/components/imgBanner/left.f044cb3797.jpg"></div>
             <div class="top-main">
               <div class="popular">
                 <div class="popular-text" data-cms-key="popular">Popular</div>
                 <div class="popular-list">
-                  <nuxt-link
+                  <div v-if="!loading" class="">
+                    <nuxt-link
                     :to="{name: 'sport-name-period', params:{name:'football',period: 'today'}}"
                     class="top-link"
                     ><span class="top-link-item">Today's Football</span
-                    ><span class="arrow"></span></nuxt-link
+                    ><span class="arrow">
+                      <i class="fa fa-chevron-right text-success"></i>
+                    </span></nuxt-link
                   ><nuxt-link
                     :to="{name: 'sport-name-period', params:{name:'football',period: 'upcoming'}}"
                     class="top-link"
                     ><span class="top-link-item">Upcoming Games</span
-                    ><span class="arrow"></span></nuxt-link
-                  ><nuxt-link
-                    to=""
+                    ><span class="arrow">
+                      <i class="fa fa-chevron-right text-success"></i>
+                    </span></nuxt-link
+                  >
+                  <nuxt-link
+                    :to="{name: 'sport-name-tournament', params:{name: 'Soccer', tournament: t.tournament_id}}"
                     class="top-link"
-                    ><span class="top-link-item">England Premier League</span
-                    ><span class="arrow"></span></nuxt-link
-                  ><nuxt-link
-                    to=""
-                    class="top-link"
-                    ><span class="top-link-item">Bundesliga</span
-                    ><span class="arrow"></span></nuxt-link
-                  ><nuxt-link
-                    to=""
-                    class="top-link"
-                    ><span class="top-link-item">La Liga</span
-                    ><span class="arrow"></span></nuxt-link
-                  ><nuxt-link
-                    to=""
-                    class="top-link"
-                    ><span class="top-link-item">Serie A</span
-                    ><span class="arrow"></span
-                  ></nuxt-link>
+                    v-for="(t, index) in menu"
+                    :key="index"
+                    ><span class="top-link-item">{{ t.tournament.name }}</span
+                    ><span class="arrow">
+                      <i class="fa fa-chevron-right text-success"></i>
+                    </span></nuxt-link
+                  >
+                  </div>
                 </div>
               </div>
               <div id="carousel" class="main-banner">
@@ -71,27 +68,15 @@
                   tabindex="6"
                   class="m-input-wrapper m-input-group m-input-group--prepend"
                 >
-                  <div class="m-input-prepend"><span>+234</span></div>
-                  <span class="m-input-com"
-                    ><!---->
-                    <input
-                      type="input"
-                      name=""
-                      placeholder="Mobile Number"
-                      onpaste="return true"
-                      data-op=""
-                      class="w-100 py-3 form-control"
-                  /></span>
-                  <!---->
+                  <div class="input-group mb-3">
+                    <span class="input-group-text bg-white rounded-0" id="basic-addon2">+234</span>
+                    <input type="text" class="form-control form-control-lg rounded-0" placeholder="Mobile Number" aria-describedby="basic-addon2">
+                  </div>
                 </div>
                 <div class="m-btn-wrapper">
                   <button class="af-button af-button--primary">
-                    <!---->
-                    <!---->
                     <span
                       ><span
-                        data-cms-key="register"
-                        data-cms-page="common_functions"
                         >Register</span
                       ></span
                     >
@@ -100,9 +85,8 @@
               </div>
             </div>
             <div class="img img2">
-              <!-- <img
-                src="//s.sporty.net/ng/main/modules/main/desktop/common/components/imgBanner/right.a9a17f66b1.jpg"
-              /> -->
+              <img src="https://s.sporty.net/ng/main/modules/main/desktop/common/components/imgBanner/right.a9a17f66b1.jpg"
+              />
             </div>
           </div>
         </div>
@@ -141,7 +125,17 @@ import Live from '~/components/Live.vue';
 export default {
   name: "IndexPage",
   layout: "default",
-  components: {Highlights, Betslip, Live}
+  components: {Highlights, Betslip, Live},
+  data(){
+    return {
+      loading: false,
+    }
+  },
+  computed:{
+    menu(){
+      return this.$store.state.sports;
+    }
+  }
 };
 </script>
 
@@ -169,7 +163,7 @@ export default {
 .m-main .m-main-top .home-top .first-part .popular {
     color: #fff;
     display: inline-block;
-    height: 254px;
+    height: 260px;
     text-align: left;
     vertical-align: top;
     width: 238px;
@@ -233,14 +227,14 @@ export default {
 
 .m-main .m-main-top .home-top .first-part .main-banner {
     display: inline-block;
-    height: 254px;
+    height: 260px;
     margin-left: 19px;
     vertical-align: top;
     width: 490px;
 }
 
 .m-main .m-main-top .home-top .first-part .main-banner .carousel {
-    height: 254px;
+    height: 260px;
 }
 
 .m-main .m-main-top .home-top .m-instant-reg {

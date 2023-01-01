@@ -203,7 +203,9 @@
                             <div>{{ game.team_a }}</div>
                             <div>{{ game.team_b }}</div>
                           </div>
-                          <div class="lmt-icon"><em class="icon"></em></div>
+                          <div class="lmt-icon">
+                            <i class="fa fa-line-chart"></i>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -316,6 +318,7 @@ export default {
         .get("sports/get-menu?period=all&start=null&end=null")
         .then((res) => {
           // console.log(res.data.menu)
+          this.$store.dispatch("setCommitMenu", res.data.menu);
           this.sports = res.data.menu;
           this.active_tournament_id =
             res.data.menu[0].categories[0].tournaments[0].sport_tournament_id;
