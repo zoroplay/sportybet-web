@@ -128,6 +128,9 @@ Vue.mixin({
       let future = new Date();
       future.setDate(future.getDate() + 7)
       return future.getFullYear() + "-" + (future.getMonth()+1)   + "-"  + future.getDate();
+    },
+    betslip(){
+      return this.$store.state.coupon.betslip;
     }
   },
   methods: {
@@ -141,6 +144,10 @@ Vue.mixin({
           return scoreArray[1];
         }
       }
+    },
+    formatNumber(number) {
+      const n = number ? number : 0;
+      return parseFloat(n).toLocaleString();
     },
     formatDate(date) {
       return this.$moment(date).format("DD/MM dddd");
@@ -208,24 +215,6 @@ Vue.mixin({
         return "-";
       }
       return name.replace(/[^a-z0-9+]+/gi, "-");
-    },
-    add(market, outcome) {
-      const data = {
-        fixture: this.details,
-        market_id: market.market_id,
-        market_name: market.market_name,
-        odds: outcome.odds,
-        odd_id: outcome.id,
-        odd_name: outcome.name,
-        ele_id: this.createID(
-          this.details.provider_id,
-          market.market_id,
-          outcome.name,
-          outcome.id
-        ),
-        fixture_type: this.details.fixture_type
-      };
-      this.$store.dispatch("coupon/addToCoupon", data);
     },
   },
   mounted() {

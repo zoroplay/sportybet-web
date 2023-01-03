@@ -94,7 +94,7 @@ export default {
     },
     getSettled(e){
       this.bets = []
-      console.log(e.target.classList.add())
+      // console.log(e.target.classList.add())
       this.$axios.post('/user/account/settled-bets').then((res)=>{
         this.bets = res.data.bets.data
       })

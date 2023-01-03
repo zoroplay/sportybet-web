@@ -6,15 +6,17 @@
           <!-- Some borders are removed <tab-content :data="tab" :sport_name="index"></tab-content> -->
           <div class="card rounded-0 mb-3">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item p-3">
-                <nuxt-link to="/" class="text-decoration-none text-dark"
+              <li class="list-group-item sports p-3 d-flex justify-content-between">
+                <nuxt-link :to="{name: 'sport-name-period', params:{name:sport,period: 'today'}}" class="text-decoration-none text-dark"
                   >Today's Game</nuxt-link
                 >
+                <i class="fa fa-chevron-right"></i>
               </li>
-              <li class="list-group-item p-3">
-                <nuxt-link to="/" class="text-decoration-none text-dark"
+              <li class="list-group-item sports p-3 d-flex justify-content-between">
+                <nuxt-link :to="{name: 'sport-name-period', params:{name:sport,period: 'upcoming'}}" class="text-decoration-none text-dark"
                   >Upcoming Games</nuxt-link
                 >
+                <i class="fa fa-chevron-right"></i>
               </li>
             </ul>
           </div>
@@ -122,11 +124,23 @@
           </div>
         </div>
         <div class="col-7 m-table-cell">
-          <fixtures v-for="(group, index) in fixtures" :key="index" :tournament_name="index" :tournament_group="group"></fixtures>
+          <fixtures v-for="(group, index) in fixtures" :key="index" :tournament_name="index" :tournament_group="group" :predictions="predictions"></fixtures>
           <div class="d-flex justify-content-center" v-if="loading">
             <div class="no_games text-center">
               <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </div>
+          <div class="card import-match" v-if="!fixtures.length && !loading">
+            <div
+              class="card-body d-flex justify-content-center"
+            >
+              <div class="no_games text-dark">
+                <p>
+                  Sorry, there are no games currently available in this
+                  category. Please try later. Thank you.
+                </p>
               </div>
             </div>
           </div>
@@ -166,6 +180,7 @@ export default {
       active_sport_id: 1,
       fixtures: [],
       loading: false,
+      predictions:[]
     };
   },
 
@@ -184,6 +199,7 @@ export default {
         )
         .then((res) => {
           this.fixtures = _.groupBy(res.data.fixtures, "sport_tournament_name");
+          this.predictions = res.data.predictions
           this.loading = false;
         });
     },

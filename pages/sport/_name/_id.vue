@@ -6,20 +6,17 @@
           <!-- Some borders are removed <tab-content :data="tab" :sport_name="index"></tab-content> -->
           <div class="card rounded-0 mb-3">
             <ul class="list-group list-group-flush">
-              <li class="list-group-item sports p-3">
-                <nuxt-link to="/" class="text-decoration-none text-dark"
+              <li class="list-group-item sports p-3 d-flex justify-content-between">
+                <nuxt-link :to="{name: 'sport-name-period', params:{name:'Soccer',period: 'today'}}" class="text-decoration-none text-dark"
                   >Today's Game</nuxt-link
                 >
+                <i class="fa fa-chevron-right"></i>
               </li>
-              <li class="list-group-item sports p-3">
-                <nuxt-link to="/" class="text-decoration-none text-dark"
+              <li class="list-group-item sports p-3 d-flex justify-content-between">
+                <nuxt-link :to="{name: 'sport-name-period', params:{name:'Soccer',period: 'upcoming'}}" class="text-decoration-none text-dark"
                   >Upcoming Games</nuxt-link
                 >
-              </li>
-              <li class="list-group-item sports p-3">
-                <nuxt-link to="/" class="text-decoration-none text-dark"
-                  >Outrights</nuxt-link
-                >
+                <i class="fa fa-chevron-right"></i>
               </li>
             </ul>
           </div>
@@ -174,8 +171,8 @@
                             ),
                             betslip
                           )
-                            ? '.m-table-cell--checked'
-                            : ''
+                            ? 'm-table-cell--checked'
+                            : 'g'
                         "
                         :style="
                           i.selections.length % 2 === 0
@@ -272,7 +269,7 @@ export default {
         ),
         fixture_type: this.details.fixture_type,
       };
-      this.$store.dispatch("addToCoupon", data);
+      this.$store.dispatch("coupon/addToCoupon", data);
     },
     sort: function (arr) {
       return arr.slice().sort(function (a, b) {
@@ -280,6 +277,9 @@ export default {
       });
     },
   },
+  mounted(){
+
+  }
 };
 </script>
 

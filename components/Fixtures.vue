@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="card rounded-0 shadow-none mb-4"
-  >
+  <div class="card rounded-0 shadow-none mb-4">
     <div class="card-body">
       <div role="button" class="start" @click="hide($event)">
         <div class="league-title">
@@ -44,11 +42,10 @@
             v-for="(game, g) in event"
             :key="g"
             class="m-table-row m-match-row"
-            @click="toMatch(game)"
           >
             <div class="m-left-content">
               <div class="m-table-cell m-left-team-cell" style="width: 258px">
-                <div class="left-team-table">
+                <div class="left-team-table" @click="toMatch(game)">
                   <div class="time">
                     <div class="clock-time">{{ game.event_time }}</div>
                     <div class="text-nowrap game-id">ID: {{ game.id }}</div>
@@ -76,6 +73,20 @@
                   v-for="(odds, o) in game.odds.slice(0, 3)"
                   :key="o"
                   class="m-outcome"
+                  @click="addToBetslip(game, odds, 0)"
+                  :class="
+                    isSelected(
+                      createID(
+                        game.provider_id,
+                        predictions[0].market_id,
+                        odds.name,
+                        odds.id
+                      ),
+                      betslip
+                    )
+                      ? 'm-outcome--checked'
+                      : ''
+                  "
                 >
                   <span class="m-outcome-odds">{{ odds.odds }}</span>
                 </div>
@@ -90,6 +101,20 @@
                   v-for="(odds, o) in game.odds.slice(5)"
                   :key="o"
                   class="m-outcome"
+                  @click="addToBetslip(game, odds, 3)"
+                  :class="
+                    isSelected(
+                      createID(
+                        game.provider_id,
+                        predictions[3].market_id,
+                        odds.name,
+                        odds.id
+                      ),
+                      betslip
+                    )
+                      ? 'm-outcome--checked'
+                      : ''
+                  "
                 >
                   <span class="m-outcome-odds">{{ odds.odds }}</span>
                 </div>
@@ -98,6 +123,20 @@
                   v-for="(odds, v) in game.odds.slice(3, 6)"
                   :key="v"
                   class="m-outcome"
+                  @click="addToBetslip(game, odds, 3)"
+                  :class="
+                    isSelected(
+                      createID(
+                        game.provider_id,
+                        predictions[3].market_id,
+                        odds.name,
+                        odds.id
+                      ),
+                      betslip
+                    )
+                      ? 'm-outcome--checked'
+                      : ''
+                  "
                 >
                   <span class="m-outcome-odds">{{ odds.odds }}</span>
                 </div>
@@ -143,8 +182,8 @@
 <script>
 export default {
   name: "fixtures",
-  props:["tournament_name","tournament_group"],
-  methods:{
+  props: ["tournament_name", "tournament_group", "predictions"],
+  methods: {
     hide(e) {
       if (e.target.parentElement.classList.contains("start")) {
         if (
@@ -155,13 +194,36 @@ export default {
           e.target.parentElement.nextElementSibling.classList.add("d-none");
         }
       } else {
-        // console.log('kjgjh')
       }
     },
-    toMatch(game){
-      return this.$router.push({name: 'sport-name-id', params:{name:this.sport ,id: game.provider_id === undefined ? 0 : game.provider_id}})
-    }
-  }
+    toMatch(game) {
+      return this.$router.push({
+        name: "sport-name-id",
+        params: {
+          name: game.sport_name,
+          id: game.provider_id === undefined ? 0 : game.provider_id,
+        },
+      });
+    },
+    addToBetslip(game, odds,i) {
+      const data = {
+        fixture: game,
+        market_id: this.predictions[i].market_id,
+        market_name: this.predictions[i].market_name,
+        odds: odds.odds,
+        odd_id: odds.id,
+        odd_name: odds.name,
+        ele_id: this.createID(
+          game.provider_id,
+          this.predictions[i].market_id,
+          odds.name,
+          odds.id
+        ),
+        fixture_type: game.fixture_type,
+      };
+      this.$store.dispatch("coupon/addToCoupon", data);
+    },
+  },
 };
 </script>
 

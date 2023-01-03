@@ -1,5 +1,4 @@
 
-
 export const state = () => ({
   sport_id: 1,
   live: false,
@@ -47,4 +46,5 @@ export const actions = {
   }
 }
 
+export const strict = false
 

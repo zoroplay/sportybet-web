@@ -330,6 +330,11 @@ nav.sports-tabs__list {
   width: 100%;
 }
 
+.import-match {
+  min-height: 358px;
+  text-align: center;
+}
+
 .left-team-table > div {
   display: table-cell;
   vertical-align: middle;
@@ -500,5 +505,22 @@ nav.sports-tabs__list {
   border-radius: 4px;
   display: inline-flex;
     justify-content: space-between;
+}
+
+.m-betslip--remove {
+  font-size: 12px;
+  -webkit-transform: scale(0.833);
+  -ms-transform: scale(0.833);
+  transform: scale(0.833);
+  color: #3656A3;
+  display: inline-block;
+  height: 24px;
+  line-height: 24px;
+  padding: 0 5px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #EAECEF;
+  border-radius: 2px;
+  cursor: pointer;
 }
 

@@ -11,14 +11,14 @@
                 <div class="popular-list">
                   <div v-if="!loading" class="">
                     <nuxt-link
-                    :to="{name: 'sport-name-period', params:{name:'football',period: 'today'}}"
+                    :to="{name: 'sport-name-period', params:{name:'Soccer',period: 'today'}}"
                     class="top-link"
                     ><span class="top-link-item">Today's Football</span
                     ><span class="arrow">
                       <i class="fa fa-chevron-right text-success"></i>
                     </span></nuxt-link
                   ><nuxt-link
-                    :to="{name: 'sport-name-period', params:{name:'football',period: 'upcoming'}}"
+                    :to="{name: 'sport-name-period', params:{name:'Soccer',period: 'upcoming'}}"
                     class="top-link"
                     ><span class="top-link-item">Upcoming Games</span
                     ><span class="arrow">
@@ -26,7 +26,7 @@
                     </span></nuxt-link
                   >
                   <nuxt-link
-                    :to="{name: 'sport-name-tournament', params:{name: 'Soccer', tournament: t.tournament_id}}"
+                    :to="{name: 'sport-name-tournament', params:{name: 'Soccer', tournament: 'sbe:tr:'+t.tournament_id}}"
                     class="top-link"
                     v-for="(t, index) in menu"
                     :key="index"
