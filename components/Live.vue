@@ -139,8 +139,8 @@
                       srcset=""
                     />
                     <div class="d-flex flex-column">
-                      <span>23:23</span>
-                      <span>H1</span>
+                      <span>{{ matchTime(game.live_data?.match_time) }}</span>
+                      <span>{{ matchStatus(game.match_status) }}</span>
                     </div>
                   </div>
                   <table
@@ -174,7 +174,7 @@
                         </div>
                       </td>
                       <td style="width: 25%">
-                        <div class="w-100 px-1" aria-label="Basic example">
+                        <div class="m-market" aria-label="Basic example">
                           <Odds
                             v-for="(o, index) in sortFixture(game, 0, 1)[0]
                               .odds"
@@ -184,12 +184,12 @@
                             :size="sortFixture(game, 0, 1)[0].odds"
                           />
                         </div>
-                        <span class="text-white">{{
+                        <!-- <span class="text-white">{{
                           sortFixture(game, 0, 1)[0]
-                        }}</span>
+                        }}</span> -->
                       </td>
                       <td style="width: 25%">
-                        <div class="w-100 px-1" aria-label="Basic example">
+                        <div class="m-market" aria-label="Basic example">
                           <Odds
                             v-for="(o, index) in sortFixture(game, 1, 2)[0]
                               .odds"
@@ -204,7 +204,7 @@
                         <nuxt-link
                           class="text-decoration-none text-white text-nowrap"
                           to=""
-                          >+55
+                          >+{{ getActiveMarkets(game.live_data?.markets).length }}
                           <i class="fa fa-chevron-right text-success"></i
                         ></nuxt-link>
                       </td>

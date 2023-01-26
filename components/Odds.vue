@@ -1,14 +1,19 @@
 <template>
-  <button type="button" class="btn btn_odds px-2 py-2 text-white" :class="[active == '0' ? 'btn-market--disabled' : 'btn-market--active'] ">
+  <div @click="addToBetslip" class="m-outcome text-white" :class="[active == '0' ? 'btn-market--disabled' : 'btn-market--active', size.length % 2 == 0 ? 'btn_odds-2': 'btn_odds-3'] ">
     <i class="fa fa-lock" v-if="active == 0"></i>
-    <span v-if="active == 1">{{ odds }}</span>
-  </button>
+    <span class="m-outcome-odds" v-if="active == 1">{{ odds }}</span>
+  </div>
 </template>
 
 <script>
 export default {
   name: "live-odds",
-  props:["active", "odds","size"]
+  props:["active", "odds","size"],
+  methods:{
+    addToBetslip(){
+      
+    }
+  }
 };
 </script>
 

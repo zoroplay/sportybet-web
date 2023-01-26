@@ -14,7 +14,6 @@
             data-bs-toggle="tab"
             :data-bs-target="'#tab_' + sport.id"
             @click.prevent="setActiveSport(sport.id)"
-            type="button"
             role="tab"
             aria-selected="true"
             :key="index"
@@ -67,9 +66,9 @@
             class="tab-pane"
             :id="'tab_' + sport.id"
           >
-            <div v-if="Object.keys(games).length > 0 && !loading">
+            <div v-if="games.length > 0 && !loading">
               <div
-                v-for="(event, index) in games"
+                v-for="(event, index) in games[0].Tournaments"
                 :key="index"
                 class="event-group text-white"
               >
@@ -80,7 +79,7 @@
                     <div
                       class="title text-white text-truncate h5 mb-0 position-absolute start-0"
                     >
-                      {{ index + " " + event[0].sport_tournament_name }}
+                      {{ event.category + " " + event.Name }}
                     </div>
                     <table
                       id="market-headers"
@@ -88,30 +87,24 @@
                     >
                       <tr style="text-align: center; color: #333">
                         <td style="width: 30%"></td>
-                        <td style="width: 25%">p</td>
-                        <td style="width: 25%">p</td>
+                        <td style="width: 25%; color: #9CA0AB;">{{ games[0].headers.markets[0].name }}</td>
+                        <td style="width: 25%; color: #9CA0AB;">{{ games[0].headers.markets[1].name }}</td>
                         <td style="width: 10%"></td>
                       </tr>
                       <tr>
-                        <td style="width: 42%"></td>
+                        <td style="width: 41%"></td>
                         <td style="width: 23%">
                           <div
-                            class="each-module-table flex-fill px-1 mx-1 d-flex justify-content-around two-markets"
+                            class="each-module-tabl flex-fill px-1 mx-1 d-flex justify-content-around two-markets"
                           >
-                            <!-- <div class="each-module"> {{ headers[0].markets[0]?.outcomes[0].name }} </div>
-                                  <div class="each-module">{{ headers[0].markets[0]?.outcomes[1].name }}</div>
-                                  <div class="each-module">{{ headers[0].markets[0]?.outcomes[2].name }}</div> -->
+                            <div style="color: #9CA0AB;" v-for="(m, index) in games[0].headers.markets[0].outcomes" :key="index" class="each-module"> {{ m.name }} </div>
                           </div>
                         </td>
                         <td style="width: 23%">
                           <div
-                            class="each-module-table x flex-fill mx-1 px-1 d-flex justify-content-around two-markets"
+                            class="each-module-tabl x flex-fill mx-1 px-1 d-flex justify-content-around two-markets"
                           >
-                            <!-- <div class="each-module"> {{ headers[0].markets[1]?.outcomes[0]?.name }} </div>
-                                  <div class="each-module"> {{ headers[0].markets[1]?.outcomes[1]?.name }} </div>
-                                  <div class="each-module"> {{ headers[0].markets[1]?.outcomes[2]?.name }} </div> -->
-                            <!-- <div class="each-module">{{ headers[0].markets[1].outcomes[1].name }}</div>
-                                  <div class="each-module">{{ headers[0].markets[2].outcomes[2].name }}</div> -->
+                            <div style="color: #9CA0AB;" v-for="(m, index) in games[0].headers.markets[1].outcomes" :key="index" class="each-module"> {{ m.name }} </div>
                           </div>
                         </td>
                         <td style="width: 10%"></td>
@@ -120,7 +113,7 @@
                   </div>
                 </div>
                 <div
-                  v-for="(game, index) in event"
+                  v-for="(game, index) in event.Events"
                   :key="index"
                   class="event my-1 text-white mb-1"
                 >
@@ -133,8 +126,8 @@
                         srcset=""
                       />
                       <div class="d-flex flex-column">
-                        <span>23:23</span>
-                        <span>H1</span>
+                        <span>{{ game.live_data?.match_time }}'</span>
+                        <span class="text-nowrap">{{ matchStatus(game.match_status) }}</span>
                       </div>
                     </div>
                     <table
@@ -168,37 +161,33 @@
                           </div>
                         </td>
                         <td style="width: 25%">
-                          <div class="w-100 px-1" aria-label="Basic example">
+                          <div class="m-market" aria-label="Basic example">
                             <Odds
-                              v-for="(o, index) in sortFixture(game, 0, 1)[0]
-                                .odds"
+                              v-for="(o, index) in sortFixture(game, 0, 1)[0].odds"
                               :key="index"
                               :active="o.active"
                               :odds="o.odds"
                               :size="sortFixture(game, 0, 1)[0].odds"
                             />
                           </div>
-                          <span class="text-white">{{
-                            sortFixture(game, 0, 1)[0]
-                          }}</span>
                         </td>
                         <td style="width: 25%">
-                          <div class="w-100 px-1" aria-label="Basic example">
+                          <div class="m-market" aria-label="Basic example">
                             <Odds
-                              v-for="(o, index) in sortFixture(game, 1, 2)[0]
-                                .odds"
+                              v-for="(o, index) in sortFixture(game, 1, 2)[0].odds"
                               :key="index"
                               :active="o.active"
                               :odds="o.odds"
                               :size="sortFixture(game, 1, 2)[0].odds"
                             />
                           </div>
+                          <!-- <span v-for="(o, index) in sortFixture(game, 1, 2)[0].odds" :key="index" class="text-white">0</span> -->
                         </td>
                         <td style="width: 10%">
                           <nuxt-link
                             class="text-decoration-none text-white text-nowrap"
                             to=""
-                            >+55
+                            >+{{ getActiveMarkets(game.live_data?.markets).length }}
                             <i class="fa fa-chevron-right text-success"></i
                           ></nuxt-link>
                         </td>
@@ -243,7 +232,7 @@ export default {
   components: { Betslip, LiveMulti },
   name: "IndexPage",
   layout: "live",
-  props: ["sports_menu", "loading", "fixtures"],
+  props: ["loading", "fixtures"],
   data() {
     return {
       // headers:'',
@@ -254,8 +243,8 @@ export default {
   computed: {
     games() {
       let sport_id = this.$store.state.sport_id;
-      let filteredData = this.fixtures.filter((x) => x.sport_id == sport_id);
-      return _.groupBy(filteredData, "sport_category_name");
+      let filteredData = this.fixtures.filter((x) => x.Id== sport_id);
+      return filteredData;
     },
     // headers(){
     //   let sport_id = this.$store.state.sport_id;
@@ -279,6 +268,9 @@ export default {
     showDropdown() {
       this.show_more_sports = !this.show_more_sports;
     },
+    getActiveMarkets(arr){
+      return arr.filter((x) => x.active == "1");
+    }
   },
 };
 </script>
@@ -318,7 +310,9 @@ export default {
   text-decoration: none;
 }
 
-
+.each-module-tabl .each-module{
+  background-color: rgba(234, 236, 239, 0.15);
+}
 
 
 </style>

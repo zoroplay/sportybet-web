@@ -138,7 +138,7 @@
               aria-selected="true"
               @click="setCategory(category.tournaments[0].sport_tournament_id)"
             >
-              <div class="category-name">{{ category.name }}</div>
+              <div class="category-name text-truncate">{{ category.name }}</div>
               <div class="tournament-name text-truncate">
                 {{ category.tournaments[0].name }}
               </div>

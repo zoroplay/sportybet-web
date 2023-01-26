@@ -10,66 +10,82 @@ Vue.mixin({
         {
           name: "Soccer",
           id: 1,
+          hoverVisible: false
         },
         {
           name: "Tennis",
           id: 5,
+          hoverVisible: false
         },
         {
           name: "Basketball",
           id: 2,
+          hoverVisible: false
         },
         {
           name: "Handball",
           id: 6,
+          hoverVisible: false
         },
         {
           name: "Rugby",
           id: 9,
+          hoverVisible: false
         },
         {
           name: "Volleyball",
           id: 18,
+          hoverVisible: false
         },
         {
           name: "Ice Hockey",
           id: 4,
+          hoverVisible: false
         },
         {
           name: "Bandy",
           id: 24,
+          hoverVisible: false
         },
         {
           name: "Boxing",
           id: 8,
+          hoverVisible: false
         },
         {
           name: "Cricket",
           id: 16,
+          hoverVisible: false
         },
         {
           name: "Darts",
           id: 17,
+          hoverVisible: false
         },
         {
           name: "Football",
           id: 28,
+          hoverVisible: false
         },
         {
           name: "Futsal",
           id: 25,
+          hoverVisible: false
         },
         {
           name: "MMA",
           id: 21,
+          hoverVisible: false
         },
         {
           name: "Snooker",
           id: 14,
+          hoverVisible: false
         },
         {
           name: "Floorball",
           id: 50,
+          hoverVisible: false
         },
       ],
       sport_list_menu_2: [
@@ -152,7 +168,67 @@ Vue.mixin({
     formatDate(date) {
       return this.$moment(date).format("DD/MM dddd");
     },
-    matchStatus() {},
+    matchStatus(status) {
+      switch (status) {
+        case 'not_started':
+            return 'Not Started';
+        case '1p':
+            return 'H1';
+        case '2p':
+            return 'H2';
+        case '1set':
+            return '1st Set';
+        case '2set':
+            return '2nd Set';
+        case '3set':
+            return '3rd Set';
+        case '4set':
+            return '4th Set';
+        case '5set':
+            return '5th Set';
+        case '6set':
+            return '6th Set';
+        case '7set':
+            return '7th Set';
+        case '1q':
+            return '1st Quarter';
+        case '2q':
+            return '2nd Quarter';
+        case '3q':
+            return '3rd Quarter';
+        case '4q':
+            return '4th Quarter';
+        case 'ot':
+            return 'Overtime';
+        case '2p_ot':
+            return '2nd Period Overtime';
+        case 'in_progress':
+            return 'In Progress';
+        case 'lunch_break':
+            return 'Lunch Break';
+        case 'injury_break':
+            return 'Injury Break';
+        case '1g':
+            return '1st Game';
+        case '2g':
+            return '2nd Game';
+        case '3g':
+            return '3rd Game';
+        case '4g':
+            return '4th Game';
+        case '5g':
+            return '5th Game';
+        case 'paused':
+            return 'HT';
+        case 'ended':
+            return 'Ended';
+        default:
+            break;
+      }
+    },
+    matchTime(time){
+      return time+":00"
+    },
     sort: function (arr) {
       // let odds = arr.live_data.markets;
       return arr.slice().sort(function (a, b) {
@@ -216,6 +292,36 @@ Vue.mixin({
       }
       return name.replace(/[^a-z0-9+]+/gi, "-");
     },
+    groupLiveSports(data){
+      let ArrKeyHolder = [];
+      let Arr = [];
+      data.forEach(function(item){
+          ArrKeyHolder[item.sport_tournament_id] = ArrKeyHolder[item.sport_tournament_id]||{};
+          let obj = ArrKeyHolder[item.sport_tournament_id];
+
+          if(Object.keys(obj).length === 0)
+              Arr.push(obj);
+
+          obj.sport_id = item.sport_id;
+          obj.sport_name = item.sport_name;
+          obj.category = item.sport_category_name;
+          obj.Id = item.sport_tournament_id;
+          obj.Name = item.sport_tournament_name;
+          obj.Events  = obj.Events || [];
+
+          obj.Events.push(item);
+      });
+      return Arr;
+    },
+    formatOdd(odd){
+      if (odd > 0 && odd % 1 === 0) {
+          return odd + ".00";
+      } else {
+          return odd;
+      }
+    }
+
+
   },
   mounted() {
     // this.getSportsMenu()

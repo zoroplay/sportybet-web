@@ -65,7 +65,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.NODE_ENV !== 'production' ? 'https://sports-api.sportsbookengine.com/api' : 'https://sports-api.sportsbookengine.com/api'
+    baseURL: process.env.NODE_ENV !== 'production' ? 'https://citybet.bet/api' : 'https://citybet.bet/api'
   },
 
   loading: '~/components/Loading.vue',
